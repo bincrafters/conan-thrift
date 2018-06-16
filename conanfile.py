@@ -13,7 +13,7 @@ class ThriftConan(ConanFile):
                     stack with an associated code \
                     generation mechanism for RPC."
     url = "https://github.com/helmesjo/conan-thrift"
-    homepage = "https://github.com/original_author/original_lib"
+    homepage = "https://thrift.apache.org/"
 
     # Indicates License type of the packaged library
     license = "MIT"
@@ -38,10 +38,10 @@ class ThriftConan(ConanFile):
 
     # http://thrift.apache.org/docs/install/
     requires = (
-        "boost/1.66.0@conan/stable",
+        "Boost/1.64.0@conan/stable",
         "flex/2.6.4@bincrafters/stable",
         "bison/3.0.4@bincrafters/stable",
-        "libevent/2.1.8@bincrafters/stable",
+        "libevent/2.0.22@bincrafters/stable",
         "zlib/1.2.11@conan/stable",
         "OpenSSL/1.1.0g@conan/stable",
     )
@@ -116,7 +116,7 @@ class ThriftConan(ConanFile):
         cmake.definitions["BUILD_EXAMPLES"] = self.options.build_examples
         cmake.definitions["BUILD_TUTORIALS"] = self.options.build_tutorials
 
-        cmake.definitions["BOOST_ROOT"] = self.deps_cpp_info['boost'].rootpath
+        cmake.definitions["BOOST_ROOT"] = self.deps_cpp_info['Boost'].rootpath
         cmake.definitions["OPENSSL_ROOT_DIR"] = self.deps_cpp_info['OpenSSL'].rootpath
         cmake.definitions["ZLIB_ROOT"] = self.deps_cpp_info['zlib'].rootpath
 
@@ -135,7 +135,7 @@ class ThriftConan(ConanFile):
             build_flags.append(option_to_flag(attr, value))
 
         integration_flags = [
-            "--with-boost={}".format(self.deps_cpp_info['boost'].rootpath),
+            "--with-boost={}".format(self.deps_cpp_info['Boost'].rootpath),
             "--with-openssl={}".format(self.deps_cpp_info['OpenSSL'].rootpath),
             "--with-zlib={}".format(self.deps_cpp_info['zlib'].rootpath),
             "--with-libevent={}".format(self.deps_cpp_info['libevent'].rootpath),
