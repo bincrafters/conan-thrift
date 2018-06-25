@@ -119,6 +119,7 @@ class ThriftConan(ConanFile):
         cmake.definitions["BOOST_ROOT"] = self.deps_cpp_info['Boost'].rootpath
         cmake.definitions["OPENSSL_ROOT_DIR"] = self.deps_cpp_info['OpenSSL'].rootpath
         cmake.definitions["ZLIB_ROOT"] = self.deps_cpp_info['zlib'].rootpath
+        cmake.definitions["LIBEVENT_ROOT"] = self.deps_cpp_info['libevent'].rootpath
 
         cmake.configure(source_folder=self.source_subfolder, build_folder=self.build_subfolder)
         return cmake
@@ -135,6 +136,9 @@ class ThriftConan(ConanFile):
             build_flags.append(option_to_flag(attr, value))
 
         integration_flags = [
+            "--with-pic={}".format('yes' if self.options.fPIC else 'no'),
+            "--enable-static={}".format('no' if self.options.shared else 'yes'),
+            "--enable-shared={}".format('yes' if self.options.shared else 'no'),
             "--with-boost={}".format(self.deps_cpp_info['Boost'].rootpath),
             "--with-openssl={}".format(self.deps_cpp_info['OpenSSL'].rootpath),
             "--with-zlib={}".format(self.deps_cpp_info['zlib'].rootpath),
