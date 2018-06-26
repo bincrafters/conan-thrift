@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from conans import ConanFile, CMake, tools
+from conans import ConanFile, CMake, tools, AutoToolsBuildEnvironment
 import os
 
 
@@ -153,11 +153,17 @@ class ThriftConan(ConanFile):
         print("config_options: %s" % flags)
 
         with tools.chdir(self.source_subfolder):
-            self.run('./bootstrap.sh')
-            self.run("./configure {}".format(flags))
+            env_build = AutoToolsBuildEnvironment(self)
+            env_build.fpic = self.options.fPIC
+            env_build.libs.append("dl")
+            env_build.libs.append("pthread")
 
-        cmake = self.configure_cmake()
-        cmake.build()
+            with tools.environment_append(env_build.vars):
+                self.run('./bootstrap.sh')
+                self.run("./configure {}".format(flags))
+
+                cmake = self.configure_cmake()
+                cmake.build()
 
     def package(self):
         self.copy(pattern="LICENSE", dst="licenses", src=self.source_subfolder)
