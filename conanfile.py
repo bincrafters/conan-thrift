@@ -154,7 +154,7 @@ class ThriftConan(ConanFile):
 
     def package(self):
         self.copy(pattern="LICENSE", dst="licenses", src=self.source_subfolder)
-        self.copy(pattern="libparse*", dst="lib", src="{}".format(os.path.join(self.build_subfolder, "lib")))
+        self.copy(pattern="*parse*", dst="lib", src="{}".format(os.path.join(self.build_subfolder, "lib")))
         cmake = self.configure_cmake()
         cmake.install()
 
