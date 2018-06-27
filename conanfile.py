@@ -38,65 +38,77 @@ class ThriftConan(ConanFile):
 
     # http://thrift.apache.org/docs/install/
     requires = (
-        "Boost/1.64.0@conan/stable",
+        "boost/1.66.0@conan/stable",
         "flex/2.6.4@bincrafters/stable",
         "bison/3.0.4@bincrafters/stable",
-        "libevent/2.0.22@bincrafters/stable",
-        "zlib/1.2.11@conan/stable",
-        "OpenSSL/1.1.0g@conan/stable",
     )
 
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
-        "build_qt4_lib": [True, False],
-        "build_qt5_lib": [True, False],
-        "build_c_glib_lib": [True, False],
-        "build_csharp_lib": [True, False],
-        "build_java_lib": [True, False],
-        "build_erlang_lib": [True, False],
-        "build_nodejs_lib": [True, False],
-        "build_lua_lib": [True, False],
-        "build_python_lib": [True, False],
-        "build_perl_lib": [True, False],
-        "build_php_lib": [True, False],
-        "build_php_extension_lib": [True, False],
-        "build_ruby_lib": [True, False],
-        "build_haskell_lib": [True, False],
-        "build_go_lib": [True, False],
-        "build_d_lib": [True, False],
-        "build_tests": [True, False],
-        "build_tutorials": [True, False],
+        "with_zlib": [True, False],
+        "with_libevent": [True, False],
+        "with_qt4": [True, False],
+        "with_qt5": [True, False],
+        "with_openssl": [True, False],
+        "with_boost_functional": [True, False],
+        "with_boost_smart_ptr": [True, False],
+        "with_boost_static": [True, False],
+        "with_boostthreads": [True, False],
+        "with_stdthreads": [True, False],
+        "with_mt": [True, False],
+        "with_c_glib": [True, False],
+        "with_cpp": [True, False],
+        "with_java": [True, False],
+        "with_python": [True, False],
+        "with_haskell": [True, False],
+        "with_plugin": [True, False],
+        "build_libraries": [True, False],
+        "build_compiler": [True, False],
+        "build_testing": [True, False],
         "build_examples": [True, False],
+        "build_tutorials": [True, False],
+
     }
 
     default_options = (
         "shared=False",
         "fPIC=True",
-        "build_qt4_lib=False",
-        "build_qt5_lib=False",
-        "build_c_glib_lib=False",
-        "build_csharp_lib=False",
-        "build_java_lib=False",
-        "build_erlang_lib=False",
-        "build_nodejs_lib=False",
-        "build_lua_lib=False",
-        "build_python_lib=False",
-        "build_perl_lib=False",
-        "build_php_lib=False",
-        "build_php_extension_lib=False",
-        "build_ruby_lib=False",
-        "build_haskell_lib=False",
-        "build_go_lib=False",
-        "build_d_lib=False",
-        "build_tests=False",
-        "build_tutorials=False",
+        "with_zlib=True",
+        "with_libevent=True",
+        "with_qt4=False",
+        "with_qt5=False",
+        "with_openssl=True",
+        "with_boost_functional=False",
+        "with_boost_smart_ptr=False",
+        "with_boost_static=False",
+        "with_boostthreads=False",
+        "with_stdthreads=True",
+        "with_mt=False",
+        "with_c_glib=False",
+        "with_cpp=True",
+        "with_java=False",
+        "with_python=False",
+        "with_haskell=False",
+        "with_plugin=False",
+        "build_libraries=True",
+        "build_compiler=True",
+        "build_testing=False", # Currently fails if 'True' because of too recent boost::test version (?) in package
         "build_examples=False",
+        "build_tutorials=False",
     )
 
     def config_options(self):
         if self.settings.os == 'Windows':
             del self.options.fPIC
+
+    def requirements(self):
+        if self.options.with_openssl:
+            self.requires("OpenSSL/1.1.0g@conan/stable")
+        if self.options.with_zlib:
+            self.requires("zlib/1.2.11@conan/stable")
+        if self.options.with_libevent:
+            self.requires("libevent/2.0.22@bincrafters/stable")
 
     def source(self):
         source_url = "https://github.com/apache/thrift"
@@ -112,58 +124,33 @@ class ThriftConan(ConanFile):
         if self.settings.os != 'Windows':
             cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options.fPIC
 
-        cmake.definitions["BUILD_TESTING"] = self.options.build_tests
-        cmake.definitions["BUILD_EXAMPLES"] = self.options.build_examples
-        cmake.definitions["BUILD_TUTORIALS"] = self.options.build_tutorials
+        def add_cmake_option(option, value):
+            var_name = "{}".format(option).upper()
+            var_value = "ON" if value else "OFF"
+            cmake.definitions[var_name] = var_value
 
-        cmake.definitions["BOOST_ROOT"] = self.deps_cpp_info['Boost'].rootpath
-        cmake.definitions["OPENSSL_ROOT_DIR"] = self.deps_cpp_info['OpenSSL'].rootpath
-        cmake.definitions["ZLIB_ROOT"] = self.deps_cpp_info['zlib'].rootpath
-        cmake.definitions["LIBEVENT_ROOT"] = self.deps_cpp_info['libevent'].rootpath
+        for attr, _ in self.options.iteritems():
+            value = getattr(self.options, attr)
+            add_cmake_option(attr, value)
+
+        add_cmake_option("WITH_SHARED_LIB", self.options.shared)
+        add_cmake_option("WITH_STATIC_LIB", not self.options.shared)
+        cmake.definitions["BOOST_ROOT"] = self.deps_cpp_info['boost'].rootpath
+        
+        # Make optional libs "findable"
+        if self.options.with_openssl:
+            cmake.definitions["OPENSSL_ROOT_DIR"] = self.deps_cpp_info['OpenSSL'].rootpath
+        if self.options.with_zlib:
+            cmake.definitions["ZLIB_ROOT"] = self.deps_cpp_info['zlib'].rootpath
+        if self.options.with_libevent:
+            cmake.definitions["LIBEVENT_ROOT"] = self.deps_cpp_info['libevent'].rootpath
 
         cmake.configure(source_folder=self.source_subfolder, build_folder=self.build_subfolder)
         return cmake
 
     def build(self):
-
-        def option_to_flag(opt, value):
-            flag_name = opt.replace('build_', '')
-            return '--with-{}={}'.format(flag_name, 'yes' if value else 'no')
-
-        build_flags = []
-        for attr, _ in self.options.iteritems():
-            value = getattr(self.options, attr)
-            build_flags.append(option_to_flag(attr, value))
-
-        integration_flags = [
-            "--with-pic={}".format('yes' if self.options.fPIC else 'no'),
-            "--enable-static={}".format('no' if self.options.shared else 'yes'),
-            "--enable-shared={}".format('yes' if self.options.shared else 'no'),
-            "--with-boost={}".format(self.deps_cpp_info['Boost'].rootpath),
-            "--with-openssl={}".format(self.deps_cpp_info['OpenSSL'].rootpath),
-            "--with-zlib={}".format(self.deps_cpp_info['zlib'].rootpath),
-            "--with-libevent={}".format(self.deps_cpp_info['libevent'].rootpath),
-        ]
-
-        flags = "{} {}".format(
-                " ".join(build_flags),
-                " ".join(integration_flags)
-                )
-
-        print("config_options: %s" % flags)
-
-        with tools.chdir(self.source_subfolder):
-            env_build = AutoToolsBuildEnvironment(self)
-            env_build.fpic = self.options.fPIC
-            env_build.libs.append("dl")
-            env_build.libs.append("pthread")
-
-            with tools.environment_append(env_build.vars):
-                self.run('./bootstrap.sh')
-                self.run("./configure {}".format(flags))
-
-                cmake = self.configure_cmake()
-                cmake.build()
+        cmake = self.configure_cmake()
+        cmake.build()
 
     def package(self):
         self.copy(pattern="LICENSE", dst="licenses", src=self.source_subfolder)
@@ -171,4 +158,9 @@ class ThriftConan(ConanFile):
         cmake.install()
 
     def package_info(self):
+        # Make 'thrift' compiler available to downstream targets
+        self.env_info.path.append(os.path.join(self.package_folder, "bin"))
         self.cpp_info.libs = tools.collect_libs(self)
+
+        # if self.settings.os == "Linux":
+        #     self.cpp_info.libs.extend(['dl', 'pthread'])
