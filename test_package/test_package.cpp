@@ -23,6 +23,8 @@ class CalculatorHandler : virtual public CalculatorIf {
   int64_t add(const int32_t num1, const int32_t num2) {
     // Your implementation goes here
     printf("add\n");
+
+    return 0;
   }
 
 };
