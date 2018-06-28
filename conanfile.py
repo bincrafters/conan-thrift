@@ -162,12 +162,12 @@ class ThriftConan(ConanFile):
         cmake.install()
 
     def package_info(self):
-        # Make 'thrift' compiler available to downstream targets
+        # Make 'thrift' compiler available to consumers
         self.env_info.path.append(os.path.join(self.package_folder, "bin"))
         self.cpp_info.libs = tools.collect_libs(self)
         
         if self.settings.os == "Windows":
-            self.cpp_info.defines.append("NOMINMAX")
+            self.cpp_info.defines.append("NOMINMAX") # To avoid error C2589: '(' : illegal token on right side of '::'
 
         # if self.settings.os == "Linux":
         #     self.cpp_info.libs.extend(['dl', 'pthread'])
