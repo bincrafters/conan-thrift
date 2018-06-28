@@ -39,8 +39,6 @@ class ThriftConan(ConanFile):
     # http://thrift.apache.org/docs/install/
     requires = (
         "boost/1.66.0@conan/stable",
-        "flex/2.6.4@bincrafters/stable",
-        "bison/3.0.4@bincrafters/stable",
     )
 
     options = {
@@ -103,6 +101,12 @@ class ThriftConan(ConanFile):
             del self.options.fPIC
 
     def requirements(self):
+        if self.settings.os == 'Windows':
+            self.requires("winflexbison/2.5.14@bincrafters/testing")
+        else:
+            self.requires("flex/2.6.4@bincrafters/stable")
+            self.requires("bison/3.0.4@bincrafters/stable")
+            
         if self.options.with_openssl:
             self.requires("OpenSSL/1.1.0g@conan/stable")
         if self.options.with_zlib:
@@ -136,7 +140,7 @@ class ThriftConan(ConanFile):
         add_cmake_option("WITH_SHARED_LIB", self.options.shared)
         add_cmake_option("WITH_STATIC_LIB", not self.options.shared)
         cmake.definitions["BOOST_ROOT"] = self.deps_cpp_info['boost'].rootpath
-        
+
         # Make optional libs "findable"
         if self.options.with_openssl:
             cmake.definitions["OPENSSL_ROOT_DIR"] = self.deps_cpp_info['OpenSSL'].rootpath
@@ -162,6 +166,9 @@ class ThriftConan(ConanFile):
         # Make 'thrift' compiler available to downstream targets
         self.env_info.path.append(os.path.join(self.package_folder, "bin"))
         self.cpp_info.libs = tools.collect_libs(self)
+        
+        if self.settings.os == "Windows":
+            self.cpp_info.defines.append("NOMINMAX")
 
         # if self.settings.os == "Linux":
         #     self.cpp_info.libs.extend(['dl', 'pthread'])
