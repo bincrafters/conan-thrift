@@ -166,8 +166,5 @@ class ThriftConan(ConanFile):
         self.env_info.path.append(os.path.join(self.package_folder, "bin"))
         self.cpp_info.libs = tools.collect_libs(self)
 
-        if self.settings.compiler == "gcc":
-            self.cpp_info.defines.append("_GLIBCXX_USE_CXX11_ABI=1") # This shouldn't be required to set explicitly, it feels like...
-
         if self.settings.os == "Windows":
             self.cpp_info.defines.append("NOMINMAX") # To avoid error C2589: '(' : illegal token on right side of '::'
