@@ -130,7 +130,8 @@ class ThriftConan(ConanFile):
 
         def add_cmake_option(option, value):
             var_name = "{}".format(option).upper()
-            var_value = "ON" if value else "OFF"
+            value_str = "{}".format(value)
+            var_value = "ON" if value_str == 'True' else "OFF" if value_str == 'False' else value_str 
             cmake.definitions[var_name] = var_value
 
         for attr, _ in self.options.iteritems():
