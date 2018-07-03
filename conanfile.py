@@ -14,6 +14,7 @@ class ThriftConan(ConanFile):
                     generation mechanism for RPC."
     url = "https://github.com/helmesjo/conan-thrift"
     homepage = "https://thrift.apache.org/"
+    author = "helmesjo <helmesjo@gmail.com>"
 
     # Indicates License type of the packaged library
     license = "MIT"
