@@ -1,45 +1,86 @@
-## Package Status
+[![Download](https://api.bintray.com/packages/bincrafters/public-conan/thrift%3Abincrafters/images/download.svg) ](https://bintray.com/bincrafters/public-conan/thrift%3Abincrafters/_latestVersion)
+[![Build Status](https://travis-ci.org/bincrafters/conan-thrift.svg?branch=stable%2F0.11.0)](https://travis-ci.org/bincrafters/conan-thrift)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/bincrafters/conan-thrift?branch=stable%2F0.11.0&svg=true)](https://ci.appveyor.com/project/bincrafters/conan-thrift)
 
-| Bintray | Windows | Linux & macOS |
-|:--------:|:---------:|:-----------------:|
-|BINTRAY_BADGE_URL|APPVEYOR_BADGE_URL|TRAVIS_BADGE_URL|
+[Conan.io](https://conan.io) package recipe for [*thrift*](https://thrift.apache.org/).
 
-## Conan.io Information
+Thrift is a lightweight,                     language-independent software                     stack with an associated code                     generation mechanism for RPC.
 
-Bincrafters packages can be found in the following public Conan repository:
+The packages generated with this **conanfile** can be found on [Bintray](https://bintray.com/bincrafters/public-conan/thrift%3Abincrafters).
 
-[Bincrafters Public Conan Repository on Bintray](https://bintray.com/bincrafters/public-conan)
+## For Users: Use this package
 
-*Note: You can click the "Set Me Up" button on the Bintray page above for instructions on using packages from this repository.*
+### Basic setup
 
-## Issues
+    $ conan install thrift/0.11.0@bincrafters/stable
 
-If you wish to report an issue or make a request for a Bincrafters package, please do so here:
+### Project setup
 
-[Bincrafters Community Issues](https://github.com/bincrafters/community/issues)
+If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 
-## General Information
+    [requires]
+    thrift/0.11.0@bincrafters/stable
 
-This GIT repository is managed by the Bincrafters team and holds files related to Conan.io.  For detailed information about Bincrafters and Conan.io, please visit the following resources:
+    [generators]
+    cmake
 
-[Bincrafters Wiki - Common README](https://github.com/bincrafters/community/wiki/Common-README.md)
+Complete the installation of requirements for your project running:
 
-[Bincrafters Technical Documentation](http://bincrafters.readthedocs.io/en/latest/)
+    $ mkdir build && cd build && conan install ..
 
-[Bincrafters Blog](https://bincrafters.github.io)
+Note: It is recommended that you run conan install from a build directory and not the root of the project directory.  This is because conan generates *conanbuildinfo* files specific to a single build configuration which by default comes from an autodetected default profile located in ~/.conan/profiles/default .  If you pass different build configuration options to conan install, it will generate different *conanbuildinfo* files.  Thus, they should not be added to the root of the project, nor committed to git.
 
-## License Information
+## For Packagers: Publish this Package
 
-Bincrafters packages are hosted on [Bintray](https://bintray.com) and contain Open-Source software which is licensed by the software's maintainers and NOT Bincrafters.  For each Open-Source package published by Bincrafters, the packaging process obtains the required license files along with the original source files from the maintainer, and includes these license files in the generated Conan packages.
+The example below shows the commands used to publish to bincrafters conan repository. To publish to your own conan respository (for example, after forking this git repository), you will need to change the commands below accordingly.
 
-The contents of this GIT repository are completely separate from the software being packaged and therefore licensed separately.  The license for all files contained in this GIT repository are defined in the [LICENSE.md](LICENSE.md) file in this repository.  The licenses included with all Conan packages published by Bincrafters can be found in the Conan package directories in the following locations, relative to the Conan Cache root (`~/.conan` by default):
+## Build and package
 
-### License(s) for packaged software:
+The following command both runs all the steps of the conan file, and publishes the package to the local system cache.  This includes downloading dependencies from "build_requires" and "requires" , and then running the build() method.
 
-    ~/.conan/data/<pkg_name>/<pkg_version>/bincrafters/package/<random_package_id>/license/<LICENSE_FILES_HERE>
+    $ conan create bincrafters/stable
 
-*Note :   The most common filenames for OSS licenses are `LICENSE` AND `COPYING` without file extensions.*
 
-### License for Bincrafters recipe:
+### Available Options
+| Option        | Default | Possible Values  |
+| ------------- |:----------------- |:------------:|
+| with_qt4      | False |  [True, False] |
+| with_qt5      | False |  [True, False] |
+| build_libraries      | True |  [True, False] |
+| build_examples      | False |  [True, False] |
+| with_boost_static      | False |  [True, False] |
+| build_compiler      | True |  [True, False] |
+| with_zlib      | True |  [True, False] |
+| with_python      | False |  [True, False] |
+| with_libevent      | True |  [True, False] |
+| shared      | False |  [True, False] |
+| build_testing      | False |  [True, False] |
+| with_java      | False |  [True, False] |
+| with_mt      | False |  [True, False] |
+| with_boostthreads      | False |  [True, False] |
+| fPIC      | True |  [True, False] |
+| with_c_glib      | False |  [True, False] |
+| with_haskell      | False |  [True, False] |
+| with_plugin      | False |  [True, False] |
+| with_stdthreads      | True |  [True, False] |
+| build_tutorials      | False |  [True, False] |
+| with_boost_smart_ptr      | False |  [True, False] |
+| with_openssl      | True |  [True, False] |
+| with_boost_functional      | False |  [True, False] |
+| with_cpp      | True |  [True, False] |
 
-    ~/.conan/data/<pkg_name>/<pkg_version>/bincrafters/export/LICENSE.md
+## Add Remote
+
+    $ conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
+
+## Upload
+
+    $ conan upload thrift/0.11.0@bincrafters/stable --all -r bincrafters
+
+
+## Conan Recipe License
+
+NOTE: The conan recipe license applies only to the files of this recipe, which can be used to build and package thrift.
+It does *not* in any way apply or is related to the actual software being packaged.
+
+[MIT](https://github.com/helmesjo/conan-thrift/blob/testing/0.11.0/LICENSE)
