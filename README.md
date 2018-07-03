@@ -1,6 +1,7 @@
 [![Download](https://api.bintray.com/packages/bincrafters/public-conan/thrift%3Abincrafters/images/download.svg) ](https://bintray.com/bincrafters/public-conan/thrift%3Abincrafters/_latestVersion)
 [![Build Status](https://travis-ci.org/bincrafters/conan-thrift.svg?branch=stable%2F0.11.0)](https://travis-ci.org/bincrafters/conan-thrift)
-[![Build status](https://ci.appveyor.com/api/projects/status/github/bincrafters/conan-thrift?branch=stable%2F0.11.0&svg=true)](https://ci.appveyor.com/project/bincrafters/conan-thrift)
+[![Build status](https://ci.appveyor.com/api/projects/status/7bncu83mqpa0a0os?svg=true
+)](https://ci.appveyor.com/project/helmesjo/conan-thrift)
 
 [Conan.io](https://conan.io) package recipe for [*thrift*](https://thrift.apache.org/).
 
