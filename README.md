@@ -1,5 +1,5 @@
 [![Download](https://api.bintray.com/packages/helmesjo/public/thrift%3Ahelmesjo/images/download.svg?version=0.11.0%3Atesting) ](https://bintray.com/helmesjo/public/thrift%3Ahelmesjo/0.11.0%3Atesting/link)
-[![Build Status](https://travis-ci.org/bincrafters/conan-thrift.svg?branch=stable%2F0.11.0)](https://travis-ci.org/bincrafters/conan-thrift)
+[![Build Status](https://travis-ci.org/helmesjo/conan-thrift.svg?branch=testing%2F0.11.0)](https://travis-ci.org/helmesjo/conan-thrift)
 [![Build status](https://ci.appveyor.com/api/projects/status/7bncu83mqpa0a0os?svg=true
 )](https://ci.appveyor.com/project/helmesjo/conan-thrift)
 
