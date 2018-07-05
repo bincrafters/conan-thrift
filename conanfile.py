@@ -55,7 +55,6 @@ class ThriftConan(ConanFile):
         "with_boost_static": [True, False],
         "with_boostthreads": [True, False],
         "with_stdthreads": [True, False],
-        "with_mt": [True, False],
         "with_c_glib": [True, False],
         "with_cpp": [True, False],
         "with_java": [True, False],
@@ -83,7 +82,6 @@ class ThriftConan(ConanFile):
         "with_boost_static=False",
         "with_boostthreads=False",
         "with_stdthreads=True",
-        "with_mt=False",
         "with_c_glib=False",
         "with_cpp=True",
         "with_java=False",
@@ -124,16 +122,18 @@ class ThriftConan(ConanFile):
         os.rename(extracted_dir, self.source_subfolder)
 
     def configure_cmake(self):
-        cmake = CMake(self, set_cmake_flags=True)
-
-        if self.settings.os != 'Windows':
-            cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options.fPIC
-
         def add_cmake_option(option, value):
             var_name = "{}".format(option).upper()
             value_str = "{}".format(value)
             var_value = "ON" if value_str == 'True' else "OFF" if value_str == 'False' else value_str 
             cmake.definitions[var_name] = var_value
+
+        cmake = CMake(self, set_cmake_flags=True)
+
+        if self.settings.os != 'Windows':
+            cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options.fPIC
+        if self.settings.compiler == "Visual Studio":
+            add_cmake_option("WITH_MT", self.settings.compiler.runtime == "MT")
 
         for attr, _ in self.options.iteritems():
             value = getattr(self.options, attr)
