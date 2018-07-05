@@ -103,7 +103,7 @@ class ThriftConan(ConanFile):
 
     def requirements(self):
         if self.settings.os == 'Windows':
-            self.requires("winflexbison/2.5.14@bincrafters/testing")
+            self.requires("winflexbison/2.5.14@helmesjo/stable")
         else:
             self.requires("flex/2.6.4@bincrafters/stable")
             self.requires("bison/3.0.4@bincrafters/stable")
