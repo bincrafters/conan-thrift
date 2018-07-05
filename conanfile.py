@@ -124,7 +124,7 @@ class ThriftConan(ConanFile):
         os.rename(extracted_dir, self.source_subfolder)
 
     def configure_cmake(self):
-        cmake = CMake(self)
+        cmake = CMake(self, set_cmake_flags=True)
 
         if self.settings.os != 'Windows':
             cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options.fPIC
