@@ -70,7 +70,6 @@ class ThriftConan(ConanFile):
     }
 
     default_options = (
-        "boost:fPIC=True",
         "shared=False",
         "fPIC=True",
         "with_zlib=True",
@@ -99,6 +98,10 @@ class ThriftConan(ConanFile):
     def config_options(self):
         if self.settings.os == 'Windows':
             del self.options.fPIC
+
+    def configure(self):
+        if self.settings.compiler != 'Visual Studio':
+            self.options['boost'].add_option('fPIC', 'True')
 
     def requirements(self):
         if self.settings.os == 'Windows':
