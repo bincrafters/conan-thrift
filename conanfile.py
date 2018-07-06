@@ -141,13 +141,14 @@ class ThriftConan(ConanFile):
 
         if self.settings.os != 'Windows':
             cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options.fPIC
-        if self.settings.compiler == "Visual Studio":
-            add_cmake_option("WITH_MT", self.settings.compiler.runtime == "MT")
 
         for attr, _ in self.options.iteritems():
             value = getattr(self.options, attr)
             add_cmake_option(attr, value)
 
+        if self.settings.compiler == "Visual Studio":
+            add_cmake_option("WITH_MT", "MT" in self.settings.compiler.runtime)
+        
         add_cmake_option("WITH_SHARED_LIB", self.options.shared)
         add_cmake_option("WITH_STATIC_LIB", not self.options.shared)
         cmake.definitions["BOOST_ROOT"] = self.deps_cpp_info['boost'].rootpath
