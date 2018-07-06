@@ -103,6 +103,11 @@ class ThriftConan(ConanFile):
         if self.settings.compiler != 'Visual Studio':
             self.options['boost'].add_option('fPIC', 'True')
 
+        # See: https://github.com/apache/thrift/blob/f12cacf56145e2c8f0d4429694fedf5453648089/build/cmake/DefinePlatformSpecifc.cmake
+        if self.settings.os == "Windows" and self.options.shared:
+            self.output.warn("Thrift does not currently support shared libs on windows. Forcing static...")
+            self.options.shared = False
+
     def requirements(self):
         if self.settings.os == 'Windows':
             self.requires("winflexbison/2.5.14@helmesjo/stable")
