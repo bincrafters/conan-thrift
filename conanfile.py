@@ -70,6 +70,7 @@ class ThriftConan(ConanFile):
     }
 
     default_options = (
+        "boost:fPIC=True",
         "shared=False",
         "fPIC=True",
         "with_zlib=True",
