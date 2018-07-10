@@ -66,7 +66,6 @@ class ThriftConan(ConanFile):
         "build_testing": [True, False],
         "build_examples": [True, False],
         "build_tutorials": [True, False],
-
     }
 
     default_options = (
@@ -137,7 +136,7 @@ class ThriftConan(ConanFile):
             var_value = "ON" if value_str == 'True' else "OFF" if value_str == 'False' else value_str 
             cmake.definitions[var_name] = var_value
 
-        cmake = CMake(self, set_cmake_flags=True)
+        cmake = CMake(self)
 
         if self.settings.os != 'Windows':
             cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options.fPIC
@@ -146,9 +145,6 @@ class ThriftConan(ConanFile):
             value = getattr(self.options, attr)
             add_cmake_option(attr, value)
 
-        if self.settings.compiler == "Visual Studio":
-            add_cmake_option("WITH_MT", "MT" in self.settings.compiler.runtime)
-        
         add_cmake_option("WITH_SHARED_LIB", self.options.shared)
         add_cmake_option("WITH_STATIC_LIB", not self.options.shared)
         cmake.definitions["BOOST_ROOT"] = self.deps_cpp_info['boost'].rootpath
@@ -161,17 +157,26 @@ class ThriftConan(ConanFile):
         if self.options.with_libevent:
             cmake.definitions["LIBEVENT_ROOT"] = self.deps_cpp_info['libevent'].rootpath
 
-        cmake.configure(source_folder=self.source_subfolder, build_folder=self.build_subfolder)
+        cmake.configure(build_folder=self.build_subfolder)
         return cmake
 
     def build(self):
         cmake = self.configure_cmake()
         cmake.build()
 
+        if self.options.build_testing:
+            self.output.info("Running {} tests".format(self.name))
+            source_path = os.path.join(self.build_subfolder, self.source_subfolder)
+            with tools.chdir(source_path):
+                self.run("ctest --build-config {}".format(self.settings.build_type))
+        
     def package(self):
         self.copy(pattern="LICENSE", dst="licenses", src=self.source_subfolder)
         cmake = self.configure_cmake()
         cmake.install()
+        build_source_dir = os.path.join(self.build_subfolder, self.source_subfolder)
+        # Copy generated headers from build tree
+        self.copy(pattern="*.h", dst="include", src=build_source_dir, keep_path=True)
 
     def package_info(self):
         # Make 'thrift' compiler available to consumers
