@@ -99,7 +99,7 @@ class ThriftConan(ConanFile):
             del self.options.fPIC
 
     def configure(self):
-        if self.settings.compiler != 'Visual Studio':
+        if self.settings.compiler != 'Visual Studio' and self.options.shared:
             self.options['boost'].add_option('fPIC', 'True')
 
         # See: https://github.com/apache/thrift/blob/f12cacf56145e2c8f0d4429694fedf5453648089/build/cmake/DefinePlatformSpecifc.cmake
