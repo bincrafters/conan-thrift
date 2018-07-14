@@ -3,8 +3,8 @@ env:
      - CONAN_USERNAME: "helmesjo"
      - CONAN_LOGIN_USERNAME: "helmesjo"
      - CONAN_CHANNEL: "stable" # because of bug in conan-package-tools, we always upload packages as stable
-     - CONAN_UPLOAD: "https://api.bintray.com/conan/helmesjo/public"
-     - CONAN_REMOTES: "https://api.bintray.com/conan/helmesjo/public,https://api.bintray.com/conan/bincrafters/public-conan"
+     - CONAN_UPLOAD: "https://api.bintray.com/conan/helmesjo/public-conan"
+     - CONAN_REMOTES: "https://api.bintray.com/conan/helmesjo/public-conan,https://api.bintray.com/conan/bincrafters/public-conan"
      - CONAN_UPLOAD_ONLY_WHEN_STABLE: 0
 
 linux: &linux
