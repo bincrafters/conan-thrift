@@ -17,7 +17,7 @@ class ThriftConan(ConanFile):
     author = "helmesjo <helmesjo@gmail.com>"
 
     # Indicates License type of the packaged library
-    license = "MIT"
+    license = "Apache License 2.0"
 
     # Packages the license for the conanfile.py
     exports = ["LICENSE.md"]
