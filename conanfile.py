@@ -15,33 +15,21 @@ class ThriftConan(ConanFile):
     url = "https://github.com/helmesjo/conan-thrift"
     homepage = "https://thrift.apache.org/"
     author = "helmesjo <helmesjo@gmail.com>"
-
-    # Indicates License type of the packaged library
     license = "Apache License 2.0"
-
-    # Packages the license for the conanfile.py
     exports = ["LICENSE.md"]
 
-    # Remove following lines if the target lib does not use cmake.
     exports_sources = ["CMakeLists.txt"]
     generators = "cmake"
 
-    # Options may need to change depending on the packaged library.
-    settings = "os", "arch", "compiler", "build_type"
-
-    # Custom attributes for Bincrafters recipe conventions
     source_subfolder = "source_subfolder"
     build_subfolder = "build_subfolder"
-
-    # Use version ranges for dependencies unless there's a reason not to
-    # Update 2/9/18 - Per conan team, ranges are slow to resolve.
-    # So, with libs like zlib, updates are very rare, so we now use static version
 
     # http://thrift.apache.org/docs/install/
     requires = (
         "boost/1.66.0@conan/stable",
     )
 
+    settings = "os", "arch", "compiler", "build_type"
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
