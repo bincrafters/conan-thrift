@@ -6,11 +6,13 @@
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/server/TThreadPoolServer.h>
 #include <thrift/server/TThreadedServer.h>
-#include <thrift/concurrency/ThreadManager.h>
+#include "thrift/server/TNonblockingServer.h"
 
-#include <thrift/protocol/TBinaryProtocol.h>
-#include <thrift/transport/TBufferTransports.h>
+#include <thrift/concurrency/ThreadManager.h>
 #include <thrift/concurrency/PlatformThreadFactory.h>
+#include <thrift/protocol/TBinaryProtocol.h>
+#include "thrift/transport/TNonblockingServerSocket.h"
+#include <thrift/transport/TBufferTransports.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
@@ -46,9 +48,12 @@ int main(int argc, char **argv) {
     stdcxx::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
     stdcxx::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
+    stdcxx::shared_ptr<TNonblockingServerSocket> nonBlockingserverTransport(new TNonblockingServerSocket(port));
+
     TSimpleServer server1(processor, serverTransport, transportFactory, protocolFactory);
     TThreadedServer server2(processor, serverTransport, transportFactory, protocolFactory);
     TThreadPoolServer server3(processor, serverTransport, transportFactory, protocolFactory);
+    TNonblockingServer server4(processor, nonBlockingserverTransport);
 
     const int workerCount = 4;
     stdcxx::shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(workerCount);
