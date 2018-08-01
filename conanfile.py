@@ -133,6 +133,10 @@ class ThriftConan(ConanFile):
             value = getattr(self.options, attr)
             add_cmake_option(attr, value)
 
+        # Make thrift use correct thread lib (see repo/build/cmake/config.h.in)
+        add_cmake_option("USE_STD_THREAD", self.options.with_stdthreads)
+        add_cmake_option("USE_BOOST_THREAD", self.options.with_boostthreads)
+
         add_cmake_option("WITH_SHARED_LIB", self.options.shared)
         add_cmake_option("WITH_STATIC_LIB", not self.options.shared)
         cmake.definitions["BOOST_ROOT"] = self.deps_cpp_info['boost'].rootpath
