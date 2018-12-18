@@ -174,6 +174,10 @@ class ThriftConan(ConanFile):
         # Make 'thrift' compiler available to consumers
         self.env_info.path.append(os.path.join(self.package_folder, "bin"))
         self.cpp_info.libs = tools.collect_libs(self)
+        # Make sure libs are link in correct order. Important thing is that libthrift/thrift is last
+        # (a little naive to sort, but libthrift/thrift should end up last since rest of the libs extend it with an abbrevation: 'thriftnb', 'thriftz')
+        # The library that needs symbols must be first, then the library that resolves the symbols should come after.
+        self.cpp_info.libs.sort(reverse = True)
 
         if self.settings.os == "Windows":
             self.cpp_info.defines.append("NOMINMAX") # To avoid error C2589: '(' : illegal token on right side of '::'
