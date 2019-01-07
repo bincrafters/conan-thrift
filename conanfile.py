@@ -129,9 +129,8 @@ class ThriftConan(ConanFile):
         if self.settings.os != 'Windows':
             cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options.fPIC
 
-        for attr, _ in self.options.iteritems():
-            value = getattr(self.options, attr)
-            add_cmake_option(attr, value)
+        for option, value in self.options.items():
+            add_cmake_option(option, value)
 
         # Make thrift use correct thread lib (see repo/build/cmake/config.h.in)
         add_cmake_option("USE_STD_THREAD", self.options.with_stdthreads)
