@@ -7,7 +7,7 @@ import os
 
 class ThriftConan(ConanFile):
     name = "thrift"
-    version = "0.11.0"
+    version = "0.12.0"
     description =   "Thrift is a lightweight, \
                     language-independent software \
                     stack with an associated code \

@@ -1,6 +1,6 @@
 [![Download](https://api.bintray.com/packages/helmesjo/public-conan/thrift%3Ahelmesjo/images/download.svg) ](https://bintray.com/helmesjo/public-conan/thrift%3Ahelmesjo/_latestVersion)
-[![Build Status](https://travis-ci.org/helmesjo/conan-thrift.svg?branch=stable%2F0.11.0)](https://travis-ci.org/helmesjo/conan-thrift)
-[![Build status](https://ci.appveyor.com/api/projects/status/github/helmesjo/conan-thrift?branch=stable%2F0.11.0&svg=true)](https://ci.appveyor.com/project/helmesjo/conan-thrift)
+[![Build Status](https://travis-ci.org/helmesjo/conan-thrift.svg?branch=stable%2F0.12.0)](https://travis-ci.org/helmesjo/conan-thrift)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/helmesjo/conan-thrift?branch=stable%2F0.12.0&svg=true)](https://ci.appveyor.com/project/helmesjo/conan-thrift)
 
 [Conan.io](https://conan.io) package recipe for [*thrift*](https://thrift.apache.org/).
 
@@ -12,14 +12,14 @@ The packages generated with this **conanfile** can be found on [Bintray](https:/
 
 ### Basic setup
 
-    $ conan install thrift/0.11.0@helmesjo/stable
+    $ conan install thrift/0.12.0@helmesjo/stable
 
 ### Project setup
 
 If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 
     [requires]
-    thrift/0.11.0@helmesjo/stable
+    thrift/0.12.0@helmesjo/stable
 
     [generators]
     cmake
@@ -74,7 +74,7 @@ The following command both runs all the steps of the conan file, and publishes t
 
 ## Upload
 
-    $ conan upload thrift/0.11.0@helmesjo/stable --all -r helmesjo
+    $ conan upload thrift/0.12.0@helmesjo/stable --all -r helmesjo
 
 
 ## Conan Recipe License
@@ -82,4 +82,4 @@ The following command both runs all the steps of the conan file, and publishes t
 NOTE: The conan recipe license applies only to the files of this recipe, which can be used to build and package thrift.
 It does *not* in any way apply or is related to the actual software being packaged.
 
-[MIT](https://github.com/helmesjo/conan-thrift/blob/testing/0.11.0/LICENSE)
+[MIT](https://github.com/helmesjo/conan-thrift/blob/testing/0.12.0/LICENSE)
