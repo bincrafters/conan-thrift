@@ -12,5 +12,4 @@ file(GLOB SOURCE_FILES *.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS} thrift-generate-cpp)
-
-set_target_properties( ${PROJECT_NAME} PROPERTIES CXX_STANDARD 11 )
+set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 11)
