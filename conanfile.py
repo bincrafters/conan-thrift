@@ -11,6 +11,7 @@ class ThriftConan(ConanFile):
     url = "https://github.com/helmesjo/conan-thrift"
     homepage = "https://github.com/apache/thrift"
     author = "helmesjo <helmesjo@gmail.com>"
+    topics = ("conan", "thrift", "serialization", "rpc")
     license = "Apache-2.0"
     exports = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt"]
