@@ -75,7 +75,7 @@ class ThriftConan(ConanFile):
     def configure(self):
         # See: https://github.com/apache/thrift/blob/v0.12.0/build/cmake/DefinePlatformSpecifc.cmake
         if self.settings.os == "Windows" and self.options.shared:
-            raise ConanInvalidConfiguration("Thrift does not currently support shared libs on windows. Forcing static...")
+            raise ConanInvalidConfiguration("Thrift does not currently support shared libs on Windows.")
 
     def requirements(self):
         self.requires("boost/1.69.0@conan/stable")
