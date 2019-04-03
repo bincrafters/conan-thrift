@@ -78,7 +78,7 @@ class ThriftConan(ConanFile):
             raise ConanInvalidConfiguration("Thrift does not currently support shared libs on windows. Forcing static...")
 
     def requirements(self):
-        self.requires("boost/1.68.0@conan/stable")
+        self.requires("boost/1.69.0@conan/stable")
         if self.settings.os == 'Windows':
             self.requires("winflexbison/2.5.17@bincrafters/stable")
         else:
