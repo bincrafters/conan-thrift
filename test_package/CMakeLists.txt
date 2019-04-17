@@ -1,15 +1,18 @@
 project(test_package)
 cmake_minimum_required(VERSION 2.8.11)
 
-set(CMAKE_VERBOSE_MAKEFILE TRUE)
-
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-add_subdirectory(thrift-generate-cpp)
+set(HEADER_FILES    calculator_constants.h
+                    calculator_types.h
+                    Calculator.h)
 
-file(GLOB SOURCE_FILES *.cpp)
+set(SOURCE_FILES    calculator_constants.cpp
+                    calculator_types.cpp
+                    Calculator.cpp
+                    test_package.cpp)
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS} thrift-generate-cpp)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
+target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 11)

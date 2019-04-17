@@ -11,6 +11,10 @@ osx: &osx
 matrix:
    include:
       - <<: *linux
+        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7-centos6-x86 CONAN_ARCHS=x86 ARCH=x86 CPT_TEST_FOLDER=test_package_installer CONAN_CONANFILE=thrift_installer.py
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7-centos6 CONAN_ARCHS=x86_64 ARCH=x86_64 CPT_TEST_FOLDER=test_package_installer CONAN_CONANFILE=thrift_installer.py
+      - <<: *linux
         env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49
       - <<: *linux
         env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
@@ -28,6 +32,9 @@ matrix:
         env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
       - <<: *linux
         env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7
+      - <<: *osx
+        osx_image: xcode10.1
+        env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_ARCHS=x86_64 ARCH=x86_64 CPT_TEST_FOLDER=test_package_installer CONAN_CONANFILE=thrift_installer.py
       - <<: *osx
         osx_image: xcode9
         env: CONAN_APPLE_CLANG_VERSIONS=9.0
