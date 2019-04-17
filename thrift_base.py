@@ -31,18 +31,3 @@ class ThriftBase(ConanFile):
         self.copy(pattern="LICENSE", dst="licenses", src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
-
-    def package_info(self):
-        # Make 'thrift' compiler available to consumers
-        self.env_info.PATH.append(os.path.join(self.package_folder, "bin"))
-        self.cpp_info.libs = tools.collect_libs(self)
-        # Make sure libs are link in correct order. Important thing is that libthrift/thrift is last
-        # (a little naive to sort, but libthrift/thrift should end up last since rest of the libs extend it with an abbrevation: 'thriftnb', 'thriftz')
-        # The library that needs symbols must be first, then the library that resolves the symbols should come after.
-        self.cpp_info.libs.sort(reverse = True)
-
-        if self.settings.os == "Windows":
-            # To avoid error C2589: '(' : illegal token on right side of '::'
-            self.cpp_info.defines.append("NOMINMAX")
-        elif self.settings.os == "Linux":
-            self.cpp_info.libs.extend(["m", "pthread"])
