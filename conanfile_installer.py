@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 from conans import CMake
-from thrift_base import ThriftBase
+from conanfile_base import ConanBase
 
 
-class ThriftInstallerConan(ThriftBase):
+class ThriftInstallerConan(ConanBase):
     name = "thrift_installer"
-    version = ThriftBase.version
+    version = ConanBase.version
     settings = "os_build", "arch_build", "compiler"
 
     def _configure_cmake(self):
@@ -25,3 +25,4 @@ class ThriftInstallerConan(ThriftBase):
 
     def package_id(self):
         del self.info.settings.compiler
+

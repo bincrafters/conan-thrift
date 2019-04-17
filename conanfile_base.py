@@ -3,15 +3,15 @@ import os
 from conans import ConanFile, tools
 
 
-class ThriftBase(ConanFile):
+class ConanBase(ConanFile):
     version = "0.12.0"
     description = "Thrift is an associated code generation mechanism for RPC"
-    url = "https://github.com/helmesjo/conan-thrift"
+    url = "https://github.com/bincrafters/conan-thrift"
     homepage = "https://github.com/apache/thrift"
     author = "helmesjo <helmesjo@gmail.com>"
     topics = ("conan", "thrift", "serialization", "rpc")
     license = "Apache-2.0"
-    exports = ["LICENSE.md", "thrift_base.py"]
+    exports = ["LICENSE.md", os.path.basename(__file__)]
     exports_sources = ["CMakeLists.txt"]
     generators = "cmake"
     _source_subfolder = "source_subfolder"
