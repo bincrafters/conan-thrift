@@ -2,12 +2,12 @@
 import os
 from conans import tools, CMake
 from conans.errors import ConanInvalidConfiguration
-from thrift_base import ThriftBase
+from conanfile_base import ConanBase
 
 
-class ThriftConan(ThriftBase):
+class ThriftConan(ConanBase):
     name = "thrift"
-    version = ThriftBase.version
+    version = ConanBase.version
     settings = "os", "arch", "compiler", "build_type"
     options = {
         "shared": [True, False],
