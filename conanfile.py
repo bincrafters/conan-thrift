@@ -63,7 +63,7 @@ class ThriftConan(ThriftBase):
             self.requires("bison/3.0.5@bincrafters/stable")
 
         if self.options.with_openssl:
-            self.requires("OpenSSL/1.0.2q@conan/stable")
+            self.requires("OpenSSL/1.0.2r@conan/stable")
         if self.options.with_zlib:
             self.requires("zlib/1.2.11@conan/stable")
         if self.options.with_libevent:
