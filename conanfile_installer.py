@@ -14,6 +14,7 @@ class ThriftInstallerConan(ConanBase):
             self.requires("winflexbison/2.5.18@bincrafters/stable")
         else:
             self.requires("flex_installer/2.6.4@bincrafters/stable")
+            self.requires("bison_installer/3.3.2@bincrafters/stable")
 
     def _configure_cmake(self):
         cmake = CMake(self)
