@@ -79,6 +79,8 @@ class ThriftConan(ConanBase):
         for option, value in self.options.items():
             cmake.definitions[option.upper()] = value
 
+        cmake.definitions["WITH_SHARED_LIB"] = self.options.shared
+
         # Make thrift use correct thread lib (see repo/build/cmake/config.h.in)
         cmake.definitions["USE_STD_THREAD"] = self.options.with_stdthreads
         cmake.definitions["USE_BOOST_THREAD"] = self.options.with_boostthreads
