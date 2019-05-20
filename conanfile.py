@@ -62,7 +62,7 @@ class ThriftConan(ConanBase):
     def requirements(self):
         self.requires("boost/1.69.0@conan/stable")
         if self.settings.os == 'Windows':
-            self.requires("winflexbison/2.5.17@bincrafters/stable")
+            self.requires("winflexbison/2.5.18@bincrafters/stable")
         else:
             self.requires("flex/2.6.4@bincrafters/stable")
             self.requires("bison/3.0.5@bincrafters/stable")
