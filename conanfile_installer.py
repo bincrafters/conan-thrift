@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
 from conans import CMake
-from conanfile_base import ConanBase
+from conanfile_base import ConanFileBase
 
 
-class ThriftInstallerConan(ConanBase):
-    name = "thrift_installer"
-    version = ConanBase.version
+class ConanFileInstaller(ConanFileBase):
+    name = ConanFileBase._base_name + "_installer"
+    version = ConanFileBase.version
+
     settings = "os_build", "arch_build", "compiler"
 
     def requirements(self):
@@ -28,8 +29,9 @@ class ThriftInstallerConan(ConanBase):
         return cmake
 
     def package_info(self):
-        bin_dir = os.path.join(self.package_folder, "bin")
-        self.env_info.PATH.append(bin_dir)
+        bindir = os.path.join(self.package_folder, "bin")
+        self.output.info('Appending PATH environment variable: {}'.format(bindir))
+        self.env_info.PATH.append(bindir)
 
     def package_id(self):
         del self.info.settings.compiler
