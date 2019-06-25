@@ -1,0 +1,20 @@
+Description: Disable struct less operator
+
+--- a/lib/cpp/test/DebugProtoTest_extras.cpp
++++ b/lib/cpp/test/DebugProtoTest_extras.cpp
+@@ -25,11 +25,11 @@
+ namespace test {
+ namespace debug {
+
+-bool Empty::operator<(Empty const& other) const {
+-  (void)other;
++//bool Empty::operator<(Empty const& other) const {
++//  (void)other;
+   // It is empty, so all are equal.
+-  return false;
+-}
++//  return false;
++//}
+ }
+ }
+ }

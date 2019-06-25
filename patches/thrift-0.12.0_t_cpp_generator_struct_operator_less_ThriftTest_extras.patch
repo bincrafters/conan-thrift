@@ -1,0 +1,18 @@
+Description: Disable struct less operator
+
+--- a/test/cpp/src/ThriftTest_extras.cpp
++++ b/test/cpp/src/ThriftTest_extras.cpp
+@@ -25,9 +25,9 @@
+ namespace thrift {
+ namespace test {
+
+-bool Insanity::operator<(thrift::test::Insanity const& other) const {
+-  using apache::thrift::ThriftDebugString;
+-  return ThriftDebugString(*this) < ThriftDebugString(other);
+-}
++//bool Insanity::operator<(thrift::test::Insanity const& other) const {
++//  using apache::thrift::ThriftDebugString;
++//  return ThriftDebugString(*this) < ThriftDebugString(other);
++//}
+ }
+ }
