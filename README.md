@@ -1,3 +1,7 @@
+## Patch of patched thrift package with cpp struct < operator support
+for details see bug THRIFT-4867
+http://mail-archives.apache.org/mod_mbox/thrift-dev/201905.mbox/%3CJIRA.13233193.1557827821000.246737.1557829500383@Atlassian.JIRA%3E
+
 ## Package Status
 
 | Bintray | Windows | Linux & macOS |

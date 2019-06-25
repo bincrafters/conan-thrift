@@ -1,0 +1,46 @@
+Description: Add struct < comparator to hpp cpp output
+
+--- a/compiler/cpp/src/thrift/generate/t_cpp_generator.cc
++++ b/compiler/cpp/src/thrift/generate/t_cpp_generator.cc
+@@ -1158,11 +1158,35 @@
+           << endl << indent() << "  return !(*this == rhs);" << endl << indent() << "}" << endl
+           << endl;
+
+-      // Generate the declaration of a less-than operator.  This must be
+-      // implemented by the application developer if they wish to use it.  (They
+-      // will get a link error if they try to use it without an implementation.)
+-      out << indent() << "bool operator < (const " << tstruct->get_name() << " & ) const;" << endl
+-          << endl;
++      // Generate the declaration of a less-than operator.
++      out << indent() << "bool operator < (const " << tstruct->get_name() << " & "
++          << (members.size() > 0 ? "rhs" : "/* rhs */") << ") const" << endl;
++      scope_up(out);
++      for (m_iter = members.begin(); m_iter != members.end(); ++m_iter) {
++        // Most existing Thrift code does not use isset or optional/required,
++        // so we treat "default" fields as required.
++        if ((*m_iter)->get_req() == t_field::T_OPTIONAL) {
++          out << indent() << "if (!__isset." << (*m_iter)->get_name() << " && rhs.__isset."
++                      << (*m_iter)->get_name() << ")" << endl;
++          out << indent() << "  return true;" << endl;
++          out << indent() << "if (__isset." << (*m_iter)->get_name() << " && !rhs.__isset."
++                      << (*m_iter)->get_name() << ")" << endl;
++          out << indent() << "  return false;" << endl;
++          out << indent() << "if (__isset." << (*m_iter)->get_name() << " && rhs.__isset."
++                      << (*m_iter)->get_name() << ") {" << endl;
++          indent_up();
++        }
++        out << indent() << "if (" <<  (*m_iter)->get_name() << " < rhs." << (*m_iter)->get_name() << ")" << endl;
++        out << indent() << "  return true;" << endl;
++        out << indent() << "if (!(" <<  (*m_iter)->get_name() << " == rhs." << (*m_iter)->get_name() << "))" << endl;
++        out << indent() << "  return false;" << endl;
++        if ((*m_iter)->get_req() == t_field::T_OPTIONAL) {
++          indent_down();
++          out << indent() << "}" << endl;
++        }
++      }
++      out << indent() << "return false;" << endl;
++      scope_down(out);
+     }
+   }
+
+
