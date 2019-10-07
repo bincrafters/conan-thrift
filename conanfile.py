@@ -69,9 +69,9 @@ class ConanFileDefault(ConanFileBase):
             self.requires("bison/3.0.5@bincrafters/stable")
 
         if self.options.with_openssl:
-            self.requires("OpenSSL/1.0.2s@conan/stable")
+            self.requires("openssl/1.0.2t")
         if self.options.with_zlib:
-            self.requires("zlib/1.2.11@conan/stable")
+            self.requires("zlib/1.2.11")
         if self.options.with_libevent:
             self.requires("libevent/2.1.8@bincrafters/stable")
 
@@ -96,7 +96,7 @@ class ConanFileDefault(ConanFileBase):
 
         # Make optional libs "findable"
         if self.options.with_openssl:
-            cmake.definitions["OPENSSL_ROOT_DIR"] = self.deps_cpp_info['OpenSSL'].rootpath
+            cmake.definitions["OPENSSL_ROOT_DIR"] = self.deps_cpp_info['openssl'].rootpath
         if self.options.with_zlib:
             cmake.definitions["ZLIB_ROOT"] = self.deps_cpp_info['zlib'].rootpath
         if self.options.with_libevent:
