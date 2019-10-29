@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from conans import tools, CMake
 from conans.errors import ConanInvalidConfiguration
