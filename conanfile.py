@@ -73,7 +73,7 @@ class ConanFileDefault(ConanFileBase):
         if self.options.with_zlib:
             self.requires("zlib/1.2.11")
         if self.options.with_libevent:
-            self.requires("libevent/2.1.8@bincrafters/stable")
+            self.requires("libevent/2.1.11")
 
     def _configure_cmake(self):
         cmake = CMake(self)
