@@ -8,13 +8,14 @@ class ConanFileBase(ConanFile):
     version = "0.12.0"
     description = "Thrift is an associated code generation mechanism for RPC"
     topics = ("conan", "thrift", "serialization", "rpc")
-    url = "https://github.com/swissembedded/conan-thrift"
+    url = "https://github.com/bincrafters/conan-thrift"
     homepage = "https://github.com/apache/thrift"
-    author = "Daniel Haensse <daniel.haensse@swissembedded.com>"
+    author = "helmesjo <helmesjo@gmail.com>"
     license = "Apache-2.0"
     exports = ["LICENSE.md", "conanfile_base.py", "patches/thrift-0.12.0_t_cpp_generator_struct_less_operator.patch", "patches/thrift-0.12.0_t_cpp_generator_struct_less_operator_DebugProtoTest_extras.cpp.patch", "patches/thrift-0.12.0_t_cpp_generator_struct_operator_less_ThriftTest_extras.patch"]
     exports_sources = ["CMakeLists.txt"]
-    generators = "cmake"    
+    generators = "cmake"
+
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
 
