@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import glob
 from conans import ConanFile, tools
 
 
@@ -12,7 +13,7 @@ class ConanFileBase(ConanFile):
     homepage = "https://github.com/apache/thrift"
     author = "helmesjo <helmesjo@gmail.com>"
     license = "Apache-2.0"
-    exports = ["LICENSE.md", "conanfile_base.py", "patches/thrift-0.12.0_t_cpp_generator_struct_less_operator.patch", "patches/thrift-0.12.0_t_cpp_generator_struct_less_operator_DebugProtoTest_extras.cpp.patch", "patches/thrift-0.12.0_t_cpp_generator_struct_operator_less_ThriftTest_extras.patch"]
+    exports = ["LICENSE.md", "conanfile_base.py", "patches/*.patch"]
     exports_sources = ["CMakeLists.txt"]
     generators = "cmake"
 
@@ -26,13 +27,9 @@ class ConanFileBase(ConanFile):
         os.rename(extracted_dir, self._source_subfolder)
 
     def build(self):
-        _patch_source_dir = os.path.join(self.source_folder, self._source_subfolder)
-        print(_patch_source_dir)
-        # patching cpp struct less operator
-        tools.patch(_patch_source_dir, os.path.join(self.source_folder,"patches/thrift-0.12.0_t_cpp_generator_struct_less_operator.patch"))
-        # patching tests
-        tools.patch(_patch_source_dir, os.path.join(self.source_folder, "patches/thrift-0.12.0_t_cpp_generator_struct_less_operator_DebugProtoTest_extras.cpp.patch"))
-        tools.patch(_patch_source_dir, os.path.join(self.source_folder, "patches/thrift-0.12.0_t_cpp_generator_struct_operator_less_ThriftTest_extras.patch"))
+        for filename in sorted(glob.glob("patches/*.patch")):
+            self.output.info('applying patch "%s"' % filename)
+            tools.patch(base_path=self._source_subfolder, patch_file=filename)
 
         cmake = self._configure_cmake()
         cmake.build()
