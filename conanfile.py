@@ -60,7 +60,7 @@ class ConanFileDefault(ConanFileBase):
             raise ConanInvalidConfiguration("Thrift does not currently support shared libs on Windows. Use -o thrift:shared=False instead")
 
     def requirements(self):
-        self.requires("boost/1.69.0@conan/stable")
+        self.requires("boost/1.71.0")
         if self.settings.os == 'Windows':
             self.requires("winflexbison/2.5.18@bincrafters/stable")
         else:
