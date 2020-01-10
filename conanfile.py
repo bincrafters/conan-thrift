@@ -65,10 +65,10 @@ class ConanFileDefault(ConanFileBase):
             self.requires("winflexbison/2.5.18@bincrafters/stable")
         else:
             self.requires("flex/2.6.4@bincrafters/stable")
-            self.requires("bison/3.0.5@bincrafters/stable")
+            self.requires("bison/3.3.2@bincrafters/stable")
 
         if self.options.with_openssl:
-            self.requires("openssl/1.0.2t")
+            self.requires("openssl/1.1.1d")
         if self.options.with_zlib:
             self.requires("zlib/1.2.11")
         if self.options.with_libevent:
