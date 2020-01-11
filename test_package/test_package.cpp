@@ -9,7 +9,7 @@
 #include "thrift/server/TNonblockingServer.h"
 
 #include <thrift/concurrency/ThreadManager.h>
-#include <thrift/concurrency/PlatformThreadFactory.h>
+#include <thrift/concurrency/ThreadFactory.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include "thrift/transport/TNonblockingServerSocket.h"
 #include <thrift/transport/TBufferTransports.h>
@@ -17,7 +17,6 @@
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
 #include <thrift/TToString.h>
-#include <thrift/stdcxx.h>
 
 #include <iostream>
 
@@ -42,13 +41,13 @@ class CalculatorHandler : virtual public CalculatorIf {
 
 int main(int argc, char **argv) {
     int port = 9090;
-    stdcxx::shared_ptr<CalculatorHandler> handler(new CalculatorHandler());
-    stdcxx::shared_ptr<TProcessor> processor(new CalculatorProcessor(handler));
-    stdcxx::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-    stdcxx::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-    stdcxx::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+    std::shared_ptr<CalculatorHandler> handler(new CalculatorHandler());
+    std::shared_ptr<TProcessor> processor(new CalculatorProcessor(handler));
+    std::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+    std::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+    std::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
-    stdcxx::shared_ptr<TNonblockingServerSocket> nonBlockingserverTransport(new TNonblockingServerSocket(port));
+    std::shared_ptr<TNonblockingServerSocket> nonBlockingserverTransport(new TNonblockingServerSocket(port));
 
     TSimpleServer server1(processor, serverTransport, transportFactory, protocolFactory);
     TThreadedServer server2(processor, serverTransport, transportFactory, protocolFactory);
@@ -56,9 +55,9 @@ int main(int argc, char **argv) {
     TNonblockingServer server4(processor, nonBlockingserverTransport);
 
     const int workerCount = 4;
-    stdcxx::shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(workerCount);
-    threadManager->threadFactory(stdcxx::make_shared<PlatformThreadFactory>());
-    
+    std::shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(workerCount);
+    threadManager->threadFactory(std::make_shared<ThreadFactory>());
+
     std::cout << "Bincrafters\n";
     return EXIT_SUCCESS;
 }

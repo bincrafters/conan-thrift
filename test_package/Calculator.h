@@ -36,7 +36,7 @@ class CalculatorIfFactory {
 
 class CalculatorIfSingletonFactory : virtual public CalculatorIfFactory {
  public:
-  CalculatorIfSingletonFactory(const ::apache::thrift::stdcxx::shared_ptr<CalculatorIf>& iface) : iface_(iface) {}
+  CalculatorIfSingletonFactory(const std::shared_ptr<CalculatorIf>& iface) : iface_(iface) {}
   virtual ~CalculatorIfSingletonFactory() {}
 
   virtual CalculatorIf* getHandler(const ::apache::thrift::TConnectionInfo&) {
@@ -45,7 +45,7 @@ class CalculatorIfSingletonFactory : virtual public CalculatorIfFactory {
   virtual void releaseHandler(CalculatorIf* /* handler */) {}
 
  protected:
-  ::apache::thrift::stdcxx::shared_ptr<CalculatorIf> iface_;
+  ::std::shared_ptr<CalculatorIf> iface_;
 };
 
 class CalculatorNull : virtual public CalculatorIf {
@@ -170,42 +170,42 @@ class Calculator_add_presult {
 
 class CalculatorClient : virtual public CalculatorIf {
  public:
-  CalculatorClient(apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
+  CalculatorClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
     setProtocol(prot);
   }
-  CalculatorClient(apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
+  CalculatorClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, std::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
     setProtocol(iprot,oprot);
   }
  private:
-  void setProtocol(apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
+  void setProtocol(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
   setProtocol(prot,prot);
   }
-  void setProtocol(apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
+  void setProtocol(std::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, std::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
     piprot_=iprot;
     poprot_=oprot;
     iprot_ = iprot.get();
     oprot_ = oprot.get();
   }
  public:
-  apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> getInputProtocol() {
+  std::shared_ptr< ::apache::thrift::protocol::TProtocol> getInputProtocol() {
     return piprot_;
   }
-  apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
+  std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
   int64_t add(const int32_t num1, const int32_t num2);
   void send_add(const int32_t num1, const int32_t num2);
   int64_t recv_add();
  protected:
-  apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
-  apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
+  std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
+  std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
   ::apache::thrift::protocol::TProtocol* iprot_;
   ::apache::thrift::protocol::TProtocol* oprot_;
 };
 
 class CalculatorProcessor : public ::apache::thrift::TDispatchProcessor {
  protected:
-  ::apache::thrift::stdcxx::shared_ptr<CalculatorIf> iface_;
+  ::std::shared_ptr<CalculatorIf> iface_;
   virtual bool dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext);
  private:
   typedef  void (CalculatorProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
@@ -213,7 +213,7 @@ class CalculatorProcessor : public ::apache::thrift::TDispatchProcessor {
   ProcessMap processMap_;
   void process_add(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
-  CalculatorProcessor(::apache::thrift::stdcxx::shared_ptr<CalculatorIf> iface) :
+  CalculatorProcessor(::std::shared_ptr<CalculatorIf> iface) :
     iface_(iface) {
     processMap_["add"] = &CalculatorProcessor::process_add;
   }
@@ -223,24 +223,24 @@ class CalculatorProcessor : public ::apache::thrift::TDispatchProcessor {
 
 class CalculatorProcessorFactory : public ::apache::thrift::TProcessorFactory {
  public:
-  CalculatorProcessorFactory(const ::apache::thrift::stdcxx::shared_ptr< CalculatorIfFactory >& handlerFactory) :
+  CalculatorProcessorFactory(const ::std::shared_ptr< CalculatorIfFactory >& handlerFactory) :
       handlerFactory_(handlerFactory) {}
 
-  ::apache::thrift::stdcxx::shared_ptr< ::apache::thrift::TProcessor > getProcessor(const ::apache::thrift::TConnectionInfo& connInfo);
+  ::std::shared_ptr< ::apache::thrift::TProcessor > getProcessor(const ::apache::thrift::TConnectionInfo& connInfo);
 
  protected:
-  ::apache::thrift::stdcxx::shared_ptr< CalculatorIfFactory > handlerFactory_;
+  ::std::shared_ptr< CalculatorIfFactory > handlerFactory_;
 };
 
 class CalculatorMultiface : virtual public CalculatorIf {
  public:
-  CalculatorMultiface(std::vector<apache::thrift::stdcxx::shared_ptr<CalculatorIf> >& ifaces) : ifaces_(ifaces) {
+  CalculatorMultiface(std::vector<std::shared_ptr<CalculatorIf> >& ifaces) : ifaces_(ifaces) {
   }
   virtual ~CalculatorMultiface() {}
  protected:
-  std::vector<apache::thrift::stdcxx::shared_ptr<CalculatorIf> > ifaces_;
+  std::vector<std::shared_ptr<CalculatorIf> > ifaces_;
   CalculatorMultiface() {}
-  void add(::apache::thrift::stdcxx::shared_ptr<CalculatorIf> iface) {
+  void add(::std::shared_ptr<CalculatorIf> iface) {
     ifaces_.push_back(iface);
   }
  public:
@@ -260,35 +260,35 @@ class CalculatorMultiface : virtual public CalculatorIf {
 // only be used when you need to share a connection among multiple threads
 class CalculatorConcurrentClient : virtual public CalculatorIf {
  public:
-  CalculatorConcurrentClient(apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
+  CalculatorConcurrentClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
     setProtocol(prot);
   }
-  CalculatorConcurrentClient(apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
+  CalculatorConcurrentClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, std::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
     setProtocol(iprot,oprot);
   }
  private:
-  void setProtocol(apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
+  void setProtocol(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
   setProtocol(prot,prot);
   }
-  void setProtocol(apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
+  void setProtocol(std::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, std::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
     piprot_=iprot;
     poprot_=oprot;
     iprot_ = iprot.get();
     oprot_ = oprot.get();
   }
  public:
-  apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> getInputProtocol() {
+  std::shared_ptr< ::apache::thrift::protocol::TProtocol> getInputProtocol() {
     return piprot_;
   }
-  apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
+  std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
   int64_t add(const int32_t num1, const int32_t num2);
   int32_t send_add(const int32_t num1, const int32_t num2);
   int64_t recv_add(const int32_t seqid);
  protected:
-  apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
-  apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
+  std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
+  std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
   ::apache::thrift::protocol::TProtocol* iprot_;
   ::apache::thrift::protocol::TProtocol* oprot_;
   ::apache::thrift::async::TConcurrentClientSyncInfo sync_;
