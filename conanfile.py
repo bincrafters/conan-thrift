@@ -109,6 +109,8 @@ class ConanFileDefault(ConanFileBase):
         # Copy generated headers from build tree
         build_source_dir = os.path.join(self._build_subfolder, self._source_subfolder)
         self.copy(pattern="*.h", dst="include", src=build_source_dir, keep_path=True)
+        tools.rmdir(os.path.join(self.package_folder, "lib", "cmake"))
+        tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
