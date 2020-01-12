@@ -10,5 +10,5 @@ if __name__ == "__main__":
         builder.add({"os": build_shared.get_os(), "arch_build": arch, "arch": arch}, {}, {}, {})
         builder.run()
     else:
-        builder = build_template_default.get_builder(pure_c=True)
+        builder = build_template_default.get_builder(pure_c=False)
         builder.run()
