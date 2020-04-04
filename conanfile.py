@@ -66,7 +66,7 @@ class ConanFileDefault(ConanFileBase):
             self.requires("bison/3.3.2@bincrafters/stable")
 
         if self.options.with_openssl:
-            self.requires("openssl/1.1.1d")
+            self.requires("openssl/1.1.1f")
         if self.options.with_zlib:
             self.requires("zlib/1.2.11")
         if self.options.with_libevent:
