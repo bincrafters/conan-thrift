@@ -11,10 +11,10 @@ class ConanFileInstaller(ConanFileBase):
 
     def requirements(self):
         if self.settings.os_build == "Windows":
-            self.requires("winflexbison/2.5.18@bincrafters/stable")
+            self.requires("winflexbison/2.5.22")
         else:
-            self.requires("flex_installer/2.6.4@bincrafters/stable")
-            self.requires("bison_installer/3.3.2@bincrafters/stable")
+            self.requires("flex/2.6.4")
+            self.requires("bison/3.5.3")
 
     def _configure_cmake(self):
         cmake = CMake(self)
