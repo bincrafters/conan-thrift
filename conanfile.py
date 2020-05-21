@@ -60,9 +60,9 @@ class ConanFileDefault(ConanFileBase):
     def requirements(self):
         self.requires("boost/1.71.0")
         if self.settings.os == 'Windows':
-            self.requires("winflexbison/2.5.18@bincrafters/stable")
+            self.requires("winflexbison/2.5.22")
         else:
-            self.requires("flex/2.6.4@bincrafters/stable")
+            self.requires("flex/2.6.4")
             self.requires("bison/3.5.3")
 
         if self.options.with_openssl:
